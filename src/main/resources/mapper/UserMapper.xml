@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 整个映射文件为mapper节点，里面包含namespace属性 -->
+<mapper namespace="com.cheng.dao.IUserDao">
+	
+	<select id="login" resultType="User">
+		select * from tb_user where username = #{username} and password=#{password}
+	</select>
+	<select id="getAllRoleByUsername" resultType="Role">
+		select r.rname
+			from tb_role r,
+			tb_user u,
+			tb_user_role ur
+			where r.rid = ur.rid
+			and u.uid= ur.uid
+			and u.username = #{username};
+	</select>
+	<select id="getAllPermissionByUsername" resultType="Permission">
+		select p.pname
+			from tb_role r,
+			tb_user u,
+			tb_user_role ur,
+			tb_permisson p,
+			tb_role_permisson rp
+			where r.rid = ur.rid
+			and u.uid= ur.uid
+			and p.pid = rp.pid
+			and r.rid = rp.rid
+			and u.username = #{username};
+	</select>
+</mapper>
